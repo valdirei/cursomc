@@ -1,6 +1,8 @@
 package com.direi.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.direi.cursomc.domain.Categoria;
+import com.direi.cursomc.domain.dto.CategoriaDTO;
 import com.direi.cursomc.services.CategoriaService;
+
 
 @RestController
 @RequestMapping(value = "/categoria")
@@ -39,5 +43,26 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 				
 	}
-
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria obj,@PathVariable Integer id){
+		
+		obj.setId(id);
+		Categoria categoria = service.atualizar(obj);
+		
+		return ResponseEntity.noContent().build();
+			
+		
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> listarTodos() {
+	
+		List<Categoria> list = service.buscarTodos();
+		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body( listDTO);
+		
+	}
+	
 }
