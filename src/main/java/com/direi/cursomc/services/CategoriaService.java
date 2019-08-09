@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.direi.cursomc.domain.Categoria;
+import com.direi.cursomc.domain.dto.CategoriaDTO;
 import com.direi.cursomc.repositories.CategoriaRepository;
 import com.direi.cursomc.services.exceptions.NotFoundException;
 
@@ -38,8 +39,10 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPage, String orderBy,String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPage, Direction.valueOf(direction),	orderBy);
 		return repo.findAll(pageRequest);
-	 
 
-
+	}
+	
+	public Categoria fromDTO(CategoriaDTO categoriaDTO) {
+		return new Categoria(categoriaDTO.getId(),categoriaDTO.getNome());
 	}
 }
