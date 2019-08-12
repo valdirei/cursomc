@@ -1,4 +1,4 @@
-package com.direi.cursomc.services.exceptions;
+package com.direi.cursomc.resources.exception;
 
 import java.io.Serializable;
 
